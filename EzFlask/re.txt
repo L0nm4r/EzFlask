@@ -1,0 +1,5 @@
+db.drop_all()
+db.create_all()
+Role.insert_roles()
+User.generate_fake(100)
+Post.generate_fake(100)

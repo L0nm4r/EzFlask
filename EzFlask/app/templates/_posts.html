@@ -1,0 +1,44 @@
+<div class="posts">
+    {% for post in posts %}
+    <div class="post">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <a href="{{ url_for('.user', username=post.author.username) }}">
+                <img class="img-rounded" src="{{ post.author.gravatar(size=50) }}">
+            </a>
+        </div>
+        <div class="panel-body">
+            <div class="post-body">
+                {% if post.body_html %}
+                    {{ post.body_html | safe }}
+                {% else %}
+                    {{ post.body }}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            {% if current_user == post.author %}
+            <a href="{{ url_for('.edit', id=post.id) }}">
+                <span class="label label-primary">Edit</span>
+            </a>
+            {% elif current_user.is_administrator() %}
+            <a href="{{ url_for('.edit', id=post.id) }}">
+                <span class="label label-danger">Edit [Admin]</span>
+            </a>
+            {% endif %}
+            <a href="{{ url_for('.post', id=post.id) }}">
+                <p class="label label-default">Permalink</p>
+            </a>
+            <br><br>
+            <p>Post By
+                <span><a href="{{ url_for('.user', username=post.author.username) }}">{{ post.author.username }}</a></span>
+                {{ moment(post.timestamp).fromNow() }}
+            </p>
+        </div>
+
+
+    </div>
+    </div>
+    {% endfor %}
+</div>
